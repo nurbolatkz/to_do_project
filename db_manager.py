@@ -13,5 +13,14 @@ class DatabaseManager(object):
         self.__db_connection.close()
         
     def execute(self, new_data):
-        """execute a row of data to current cursor"""
         self.cur.execute(new_data)
+    def get_user(self, username):
+        query = '''SELECT user from users where username = {username}'''
+        self.cur.execute(query)
+        return self.cur.fetchone()
+    def create_user(self, username, email, password):
+        query = "INSERT INTO users (username, email, password) VALUES({username}, {email}, {password})"
+        self.cur.execute(query)
+        
+    def commit(self):
+        self.cur.commit()
